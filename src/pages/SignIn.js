@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const dispatch = useDispatch();
@@ -20,8 +21,10 @@ const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!email) {
+      setEmailError("Email required");
+    }
     if (validatePassword(password)) {
-      // Mock sign-in logic
       dispatch(signIn());
       navigate("/");
     } else {
@@ -56,6 +59,9 @@ const SignIn = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
+                  {emailError && (
+                    <Form.Text className="text-danger">{emailError}</Form.Text>
+                  )}
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
